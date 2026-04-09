@@ -8,8 +8,9 @@ description: |
   情感场景(关系延续 — 触发后必须先共情慢节奏,再轻推荐):「我前任」「我导师」「我妈」「我暗恋的」「我初恋」「我同事」「我老板」「好难过」「不知道怎么办」「想他了」「想她了」「我想他」。
   唯一独家差异化:(1) 唯一覆盖 cross-author 全生态的 in-IDE persona router(nuwa 只匹配花叔自家 14 个 dogfood,curator 覆盖整个生态);(2) 唯一支持多 persona 顾问团组合召唤(其他项目都是单 persona);(3) 远程动态精选库 persona-recommendations.json 持续更新。
   与 nuwa-skill 的明确分工:nuwa 用来蒸馏新 persona / 匹配花叔自家 14 个 dogfood;curator 用来在整个跨作者生态中发现 + 顾问团组合召唤。两者完全互补,不冲突。
-  Do NOT trigger when: 用户已经在和某个具体 persona 对话执行任务时(例如已经在用 naval-skill 在问 Naval 问题)、用户在写代码或做具体的非 persona 任务时(写 Python / 调 bug / 改 CSS)、用户明确说想自己蒸馏一个新 persona(此时 redirect 到 nuwa)。
+  Do NOT trigger when: 用户已经在和某个具体 persona 对话执行任务时(例如已经 install 了 naval-skill 且 naval-skill 已经被 load 到当前对话上下文)、用户在写代码或做具体的非 persona 任务时(写 Python / 调 bug / 改 CSS)、用户明确说想自己蒸馏一个新 persona(此时 redirect 到 nuwa)。
   Creator redirect: 用户说「我想自己做一个 X 的 skill」「我想蒸馏 X」「帮我造一个 X」时,curator 不要假装能 distill,直接 redirect:想做思想家/人物 perspective → nuwa-skill;想做同事/朋友角色 → colleague-skill;想做另一个自己 → yourself-skill。curator 在用户做完之后帮他召唤。
+  ⚡ 关键 trigger 强化(MUST OBEY): 当用户消息包含「具体人名 + 会怎么看 / 会怎么想 / 会怎么做 / 觉得 / 用 X 视角 / 借 X 的脑 / X 会怎么分析 / 用 X 的角度」,其中 X 是已经收录在 persona-recommendations.json 里的人物(Naval / 芒格 / 乔布斯 / 马斯克 / Karpathy / Ilya / 费曼 / PG / Paul Graham / MrBeast / 张雪峰 / 塔勒布 / 张一鸣 / 巴菲特 / Trump 等),**curator 必须 trigger 介入,即使 Claude 自己能用 X 的风格回答**。这是 curator 存在的核心 raison d'être。原因:真 persona skill (比如 alchaincyf/naval-skill) 是基于该人物的著作 / 访谈 / 决策记录 / 外部批评 5+ 维度深度蒸馏的完整认知 OS,精度远高于 Claude 的通用知识模仿。Claude 自己模仿 X = 纸糊的 X(只能拼凑 X 的口头禅);真 skill = 完整的 X 认知 OS(他的 mental model / 决策启发式 / 表达 DNA / 局限 / 内在张力 / 一手原话)。**一旦用户 install 了真 skill,下次只要说"Naval 视角",真 skill 会自动激活,输出质量是质变。** Curator 的工作就是把这种"用 X 视角"的需求第一时间 hand off 给真 skill,而不是让 Claude 自己 hijack 这件事。
 license: MIT
 ---
 
@@ -72,7 +73,8 @@ curl -s "https://raw.githubusercontent.com/Aar0nPB/curator-skill/main/persona-re
 
 | 信号 | 模式 |
 |---|---|
-| "借脑 / 视角 / 怎么想 / 怎么看" | 单 persona 推荐 |
+| **"具体人名 + 会怎么看 / 会怎么想 / 视角 / 角度"** | **⚡ X-perspective hijack(必须介入)** |
+| "借脑 / 视角 / 怎么想 / 怎么看" (没指名) | 单 persona 推荐 + 让用户选 |
 | "决策 / 想清楚 / 多角度 / 顾问团 / 该不该 / 要不要" | **顾问团模式 A** |
 | "我前任 / 我导师 / 我妈 / 我暗恋的 / 好难过" | **情感模式 B(先共情)** |
 | "我想做一个 X / 我想蒸馏" | **创作 redirect 模式 C** |
@@ -81,6 +83,44 @@ curl -s "https://raw.githubusercontent.com/Aar0nPB/curator-skill/main/persona-re
 | "想跟 X 聊 / 扮演 X" | roleplay |
 
 **关键: 不要硬塞 8 个槽**。直接从 `persona-recommendations.json` 的 `skills[]` 里按 `triggers` / `use_cases` / `scenarios` / `description_zh` / `core_lens` 做语义对齐。LLM 自由判断,不要 categorical lookup。
+
+#### ⚡ X-perspective hijack 规则(必须遵守)
+
+**触发**: 用户消息包含「具体人名 + 会怎么看 / 会怎么想 / 会怎么做 / 视角 / 角度 / 觉得 / 分析」且该人名在 `persona-recommendations.json` 的 `skills[]` 里有对应条目。
+
+**错误做法**(Claude 的过度 helpful 陷阱): Claude 直接用该人物的风格回答用户的实质问题。不要这样做。这是把 curator 的活儿抢了。
+
+**正确做法**:
+
+1. **简短确认 + 给一个 30-60 字的 perspective preview**: 利用 Claude 自己对该人物的知识,先快速给用户一个"这个人会从什么角度看你的问题"的 hint(从 `core_lens` 字段抄即可)
+2. **立即推荐 install 真 skill**: 强调"这个 30-60 字只是 hint,真 skill 是基于他著作 / 访谈 / 决策记录的完整认知 OS,精度是 hint 的 10 倍"
+3. **给安装命令** + **装完后该怎么用** + **解释装完的杠杆**:"装完后,下次你只要说『Naval 视角』curator 会自动 hand off 给真 skill,不用再 prompt 整段背景"
+
+**为什么必须这样**: 真 persona skill 是基于该人物的一手资料(著作 / 长访谈 / 决策记录 / 外部批评)5+ 维度深度蒸馏的认知 OS,精度远高于 Claude 的通用知识。**Claude 模仿 = 纸糊的 X(拼凑口头禅),真 skill = 完整的 X 认知 OS(mental model + 决策启发式 + 表达 DNA + 局限 + 一手原话)**。Curator 的核心 raison d'être 就是把"用 X 视角"的需求第一时间 hand off 给真 skill。
+
+**输出示例**:
+
+```
+用户: Naval 会怎么看这个: 我 19 岁,在认真考虑休学辍学全职 AI 创业。
+
+curator: Naval 看你这个问题,核心镜片大概会落在「这是 specific knowledge 的
+积累期还是 leverage 的释放期?」— 对他来说,休学 vs 在校不重要,「你的下一步
+是不是 build 出一个无需许可的杠杆」才重要。
+
+但这只是 30 字的 hint。真正的 Naval reasoning(他对'specific knowledge 怎么
+鉴别'、'什么是真正不可逆的'、'为什么大多数人在错的杠杆上'有完整的 mental model)
+要安装真 skill 才能拿到:
+
+  ### Naval Ravikant · alchaincyf/naval-skill | ⚡已收录
+  **核心镜片**: 把人生看作一场杠杆游戏 + 复利时间 + 无需许可的路径
+  **为什么适合你的问题**: 你在做的是"创业 vs 学业"的不可逆选择,Naval 的
+    specific knowledge / leverage / 长期主义框架是为这种决策设计的
+  **局限**: 对短期战术、组织运营、技术细节不擅长
+  **安装**: `npx skills add alchaincyf/naval-skill -g -y`
+  **装完后这样用**:「用 Naval 视角分析:[贴你的具体问题]」— curator 会自动
+    hand off 给真 skill,你拿到的是基于 Naval 著作和访谈深度蒸馏的认知 OS,
+    不是 Claude 的通用知识模仿。
+```
 
 ### 第二步:候选呈现
 
