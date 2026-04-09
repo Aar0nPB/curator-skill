@@ -128,9 +128,11 @@ npx skills add Aar0nPB/curator-skill -g -y
 
 ## Runtime 兼容性
 
-- **主要支持**: Claude Code(所有功能在此 runtime 验证)
-- **理论兼容**: OpenClaw(改安装路径即可,底层只是 markdown + JSON)
-- **未支持**: Cursor / Codex CLI / Gemini CLI(整个 persona skill 生态尚未在这些 runtime 内)
+`npx skills add` 协议会自动把 curator-skill install 到 **12+ 个 agent runtime** 的标准路径:
+
+- **自动 install**: Claude Code · Cursor · Codex CLI · Gemini CLI · OpenCode · Antigravity · Kiro CLI · Trae · OpenClaw 等
+- **主要验证**: Claude Code(所有 prompt 行为在此 runtime 测试)
+- **为什么跨 runtime 能 work**: SKILL.md + JSON 是纯文本,顾问团 lite 版的"依次召唤脚本"在任何支持 SKILL 协议的 runtime 都能 work,不依赖任何 runtime-specific 黑科技
 
 ---
 
@@ -226,9 +228,11 @@ Then in Claude Code, say things like:
 
 ## Runtime support
 
-- **Primary**: Claude Code (all features validated)
-- **Compatible**: OpenClaw (just change install path; under the hood it's just markdown + JSON)
-- **Not yet**: Cursor / Codex CLI / Gemini CLI (the persona skill ecosystem isn't in these runtimes yet)
+The `npx skills add` protocol auto-installs curator-skill to **12+ agent runtimes**:
+
+- **Auto-installed to**: Claude Code · Cursor · Codex CLI · Gemini CLI · OpenCode · Antigravity · Kiro CLI · Trae · OpenClaw
+- **Primary validation**: Claude Code (all prompt behaviors tested here)
+- **Why it works cross-runtime**: SKILL.md + JSON is plain text. The Council lite invocation scripts work in any SKILL-protocol-compatible runtime — no runtime-specific magic required.
 
 ## License
 
