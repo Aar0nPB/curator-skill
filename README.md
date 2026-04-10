@@ -1,78 +1,52 @@
-# 图鉴.skill — Persona Skill Router That Lives in Your IDE
+# 图鉴.skill / curator.skill
 
-> **你装了 colleague.skill / nuwa.skill 之后,下一个该装什么?**
+> 「蒸馏了那么多人，该找谁？」
 
 ```bash
 npx skills add Aar0nPB/curator-skill -g -y
 ```
 
-`30+ persona skills` · `cross-author` · `MIT`
-
-中文世界唯一的 in-IDE persona skill router — 在 Claude Code 里说话,curator 帮你跨作者发现、推荐 persona skill。
-
----
-
 ## 这是什么
 
-`curator-skill` 是一个住在你 IDE 里的 persona skill 智能调度器。
+这是一个可以在你跟 AI 对话的时候智能推荐、召唤合适人格的 persona skill 图鉴。
 
-- **跨作者发现**: 你装了 nuwa 后只能匹配花叔自家 14 个 dogfood persona;curator 覆盖整个跨作者生态(30+ 起,持续增长)
-- **远程动态精选库**: `persona-recommendations.json` 远程版本化,老用户被持续召回
-- **不抢 creator 位**: 想自己造新 persona,curator 直接 redirect 到 nuwa / colleague / yourself
+你可能装了好几个 persona skill（Naval、芒格、乔布斯、同事、前任...），但平时用的时候不一定记得该调哪个。curator 根据你说的话，自动从 30 个跨作者 persona skill 里匹配最合适的那个。
 
----
+## 装完之后
 
-## 7 个用户场景
+在 Claude Code / Cursor / Codex CLI 里直接说话就行：
 
-| 场景 | 你说的话 | curator 给你的 |
-|---|---|---|
-| **入门探索** | "有什么 persona skill" | starter pack: top 8 跨类目精选 |
-| **借脑思考** | "Naval / 芒格会怎么想" | 单 persona 精准定位 |
-| **方法论学习** | "想学 Karpathy 的 ML 思维" | 领域 mentor skill |
-| **决策辅助** | "该不该 X / 要不要 X / 帮我想清楚" | 匹配决策类型最相关的单 persona |
-| **关系延续** | "我前任 / 我导师 / 我妈" | 情感场景: 先共情,再轻推荐 |
-| **自我对话** | "和未来的我对话 / 另一个我" | yourself.skill / 数字人生 |
-| **角色扮演** | "想跟马斯克聊天" | nuwa 对应 dogfood |
-| **创作引导** | "我想自己做一个 X 的 skill" | **直接 redirect 到 nuwa,不抢位** |
+> **「Naval 会怎么看这件事？」**
+>
+> → 智能匹配到 naval-skill（基于 30+ 篇著作蒸馏的完整认知框架），AI 给你推荐，许可后一键安装
 
----
+> **「有什么好玩的 persona skill？」**
+>
+> → 按类别展示：大佬 17 个 · 关系延续 10 个 · 自我对话 3 个
 
-## 与生态其他项目的关系
+> **「我前任突然找我了...」**
+>
+> → 先听你说完，再轻推荐 ex-skill
 
-| | nuwa | colleague | dot-skill | ai-skill | **curator** |
-|---|---|---|---|---|---|
-| 跨作者匹配 | ✗ 只 14 自家 | ✗ creator | ✓ web | ✓ 通用 | **✓ persona 专精** |
-| 决策类 persona 推荐 | ✗ | ✗ | ✗ | ✗ | **✓** |
-| In-IDE 主动触发 | ✓ | ✓ | ✗ web | ✓ | **✓** |
-| 远程动态精选库 | ✗ | ✗ | web | ✓ | **✓** |
-| 专精 persona 场景 | ✓ creator | ✓ creator | ✓ list | ✗ 通用 | **✓ router** |
+## 收录
 
-**curator 不重复造轮子** — 它占的是当前生态唯一的"installable in-IDE persona-specialized router"空白生态位:
+| 类别     | 数量 | 包含                                                                                                                                               |
+| -------- | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **大佬** | 17   | Naval · 芒格 · 塔勒布 · Paul Graham · Karpathy · Ilya · 费曼 · MrBeast · 乔布斯 · 马斯克 · Trump · 张一鸣 · 张雪峰 · 户晨风 · 巴菲特 · 毛选 · 求是 |
+| **熟人** | 10   | 同事 · 前任(titanwings) · 前任(小蛮) · 暗恋 · 父母 · 师兄 · 导师 · 老板 · 永生 · 重逢                                                              |
+| **自我** | 3    | 自己 · 永生 · 数字人生                                                                                                                             |
 
-- 想**蒸馏新 persona** → 用 [nuwa](https://github.com/alchaincyf/nuwa-skill)
-- 想**做同事/朋友角色** → 用 [colleague](https://github.com/titanwings/colleague-skill)
-- 想在 **web 上看生态全貌** → 用 [dot-skill](https://github.com/titanwings/colleague-skill)
-- 想**通用 skill 发现** → 用 [ai-skill](https://github.com/1-SKILL/ai-skill)
-- 想在 **IDE 里被动地、按意图、跨作者地发现 + 推荐 persona** → **curator**(本项目)
+完整目录见 [`persona-recommendations.json`](./persona-recommendations.json)。
 
----
+精选库持续更新。
 
-## v1 收录
+## 生态分工
 
-**30 个精选 persona**
+curator 只做发现和推荐。其他的事有更好的工具：
 
-### 思想家 Perspective(17)
-Naval Ravikant · Charlie Munger · Nassim Taleb · Paul Graham · Andrej Karpathy · Ilya Sutskever · Richard Feynman · MrBeast · Steve Jobs · Elon Musk · Donald Trump · 张一鸣 · 张雪峰 · 户晨风 · 巴菲特 · 毛选 · 求是
-
-### 关系延续 Relationship(10)
-同事(titanwings) · 前任(titanwings) · 前任(小蛮) · 暗恋对象 · 父母 · 师兄 · 导师 · 老板 · 永生 · 重逢
-
-### 自我对话 Self(3)
-自己 · 永生 · 数字人生
-
-完整列表见 [`persona-recommendations.json`](./persona-recommendations.json)。
-
----
+- **想蒸馏新 persona** → [女娲 nuwa-skill](https://github.com/alchaincyf/nuwa-skill)
+- **想做同事/朋友/亲人角色** → [同事 colleague-skill](https://github.com/titanwings/colleague-skill)
+- **想看整个生态全貌** → [dot-skill Gallery](https://titanwings.github.io/colleague-skill-site/gallery/)
 
 ## 安装
 
@@ -80,66 +54,13 @@ Naval Ravikant · Charlie Munger · Nassim Taleb · Paul Graham · Andrej Karpat
 npx skills add Aar0nPB/curator-skill -g -y
 ```
 
-安装后,在 Claude Code 里直接说话即可触发,例如:
-
-```
-"有什么 persona skill"
-"该不该接这个 offer,帮我想清楚"
-"Naval 会怎么想这个"
-"我前任突然找我"
-```
-
----
-
-## Runtime 兼容性
-
-`npx skills add` 协议会自动把 curator-skill install 到 **12+ 个 agent runtime** 的标准路径:
-
-- **自动 install**: Claude Code · Cursor · Codex CLI · Gemini CLI · OpenCode · Antigravity · Kiro CLI · Trae · OpenClaw 等
-- **主要验证**: Claude Code(所有 prompt 行为在此 runtime 测试)
-- **为什么跨 runtime 能 work**: SKILL.md + JSON 是纯文本,在任何支持 SKILL 协议的 runtime 都能 work,不依赖任何 runtime-specific 黑科技
-
----
-
-## 明确不做(防 scope creep)
-
-- ❌ **不做 creator** — 用户想做新 persona 时 redirect 到 nuwa
-- ❌ **不做 web hub** — dot-skill 已经做了
-- ❌ **不做静态 markdown list** — xixu-me / tmstack 已经做了
-- ❌ **不维护 persona 内容** — 只做发现/匹配/路由,内容由原作者负责
-- ❌ **不做 install 之外的 social 功能**(评分、评论、社交)
-- ❌ **不写复杂 Python 后端** — SKILL.md + 一个 JSON 即可
-
----
+支持 Claude Code · Cursor · Codex CLI · Gemini CLI · OpenCode 等 12+ 个 agent runtime。
 
 ## 致谢
 
-curator-skill 站在中文 persona skill 生态的肩膀上。没有以下作者的工作,curator 不会存在:
-
-- **[titanwings](https://github.com/titanwings)** — `colleague-skill` (9.3k⭐) 开创了整个赛道,`dot-skill` 是 ecosystem 的 web hub
-- **[alchaincyf 花叔](https://github.com/alchaincyf)** — `nuwa-skill` (4.1k⭐) + 14 个 dogfood persona 是 curator 收录的核心内容
-- **[1-SKILL](https://github.com/1-SKILL)** — `ai-skill` 是 in-IDE meta-router 模式的灵感来源
-- **[notdog1998](https://github.com/notdog1998)** — `yourself-skill` 自我蒸馏的代表作
-- **[xiaoheizi8](https://github.com/xiaoheizi8)** — `crush-skills` / `parents-skills` 情感场景代表
-- **[therealXiaomanChu](https://github.com/therealXiaomanChu)** — `ex-skill` 重要单 persona 作者
-- **[agenmod](https://github.com/agenmod)** — `immortal-skill` 多 runtime 兼容的最佳实践
-- **[xixu-me](https://github.com/xixu-me) / [tmstack](https://github.com/tmstack) / [codeman008](https://github.com/codeman008)** — 三个 awesome list 提供了完整的生态 inventory
-
----
-
-## 贡献
-
-想推荐新的 persona skill 入选 curator 的精选库?请提 [GitHub Issue](https://github.com/Aar0nPB/curator-skill/issues),包含以下信息:
-
-- repo URL
-- 中文名 + 一句话描述
-- 你认为它属于哪个 scenario(8 个之一)
-- 它的核心镜片(core_lens) + 局限(limits)
-- (可选) 一个真实的使用示例
-
-精选库每周 review 一次,版本号在 `_meta.version`。
-
----
+- [titanwings](https://github.com/titanwings) — colleague-skill, dot-skill
+- [alchaincyf](https://github.com/alchaincyf) — nuwa-skill + persona skills
+- [therealXiaomanChu](https://github.com/therealXiaomanChu) · [notdog1998](https://github.com/notdog1998) · [xiaoheizi8](https://github.com/xiaoheizi8) · [agenmod](https://github.com/agenmod)
 
 ## License
 
@@ -147,33 +68,53 @@ curator-skill 站在中文 persona skill 生态的肩膀上。没有以下作者
 
 ---
 
-# 图鉴.skill — Persona Skill Router That Lives in Your IDE (English)
+# curator.skill / 图鉴.skill (English)
 
-> **You've installed colleague.skill / nuwa.skill — what's next?**
+> "You've distilled so many minds — but which one do you need right now?"
 
 ```bash
 npx skills add Aar0nPB/curator-skill -g -y
 ```
 
-`30+ persona skills` · `cross-author` · `MIT`
+## What is this
 
-The only in-IDE persona skill router for the Chinese AI ecosystem — speak in Claude Code, and curator finds and recommends persona skills across authors.
+A persona skill router that intelligently recommends the right persona when you're talking to your AI agent.
 
-## What it is
+You probably have several persona skills installed (Naval, Munger, Steve Jobs, colleague, ex...) but don't always remember which one to use. curator matches your words to the best fit from 30 cross-author persona skills.
 
-- **Cross-author discovery**: nuwa only matches its author's own 14 dogfood personas; curator covers the entire cross-author ecosystem (30+ and growing)
-- **Remote dynamic curation**: `persona-recommendations.json` is versioned and updated weekly
-- **Doesn't compete with creators**: if you want to distill a new persona, curator redirects you to nuwa / colleague / yourself
+## After installing
 
-## How it differs
+Just talk in Claude Code / Cursor / Codex CLI:
 
-| | nuwa | colleague | dot-skill | ai-skill | **curator** |
-|---|---|---|---|---|---|
-| Cross-author | ✗ 14 dogfood only | ✗ creator | ✓ web | ✓ generic | **✓ persona-specialized** |
-| Decision persona matching | ✗ | ✗ | ✗ | ✗ | **✓** |
-| In-IDE active trigger | ✓ | ✓ | ✗ web | ✓ | **✓** |
-| Remote dynamic curation | ✗ | ✗ | web | ✓ | **✓** |
-| Persona-specialized | ✓ creator | ✓ creator | ✓ list | ✗ generic | **✓ router** |
+> **"What would Naval think about this?"**
+>
+> → Matches naval-skill (full cognitive framework distilled from 30+ writings), recommends and installs with your permission
+
+> **"What persona skills are out there?"**
+>
+> → Shows by category: Thought Leaders 17 · Relationships 10 · Self 3
+
+> **"My ex just reached out..."**
+>
+> → Listens first, then gently recommends ex-skill
+
+## Collection
+
+| Category          | Count | Includes                                                                                                                                                                                |
+| ----------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Adepts**        | 17    | Naval · Munger · Taleb · Paul Graham · Karpathy · Ilya · Feynman · MrBeast · Steve Jobs · Elon Musk · Trump · Zhang Yiming · Zhang Xuefeng · Hu Chenfeng · Buffett · Mao Xuan · Qiu Shi |
+| **Relationships** | 10    | Colleague · Ex(titanwings) · Ex(XiaomanChu) · Crush · Parents · Senior · Mentor · Boss · Immortal · Reunion                                                                             |
+| **Self**          | 3     | Yourself · Immortal · Digital Life                                                                                                                                                      |
+
+Full catalog: [`persona-recommendations.json`](./persona-recommendations.json). Continuously updated.
+
+## Ecosystem
+
+curator only does discovery and recommendation. For everything else, use the right tool:
+
+- **Distill a new persona** → [Nuwa nuwa-skill](https://github.com/alchaincyf/nuwa-skill)
+- **Create colleague/friend/family roles** → [Colleague colleague-skill](https://github.com/titanwings/colleague-skill)
+- **Browse the full ecosystem** → [dot-skill Gallery](https://titanwings.github.io/colleague-skill-site/gallery/)
 
 ## Install
 
@@ -181,22 +122,7 @@ The only in-IDE persona skill router for the Chinese AI ecosystem — speak in C
 npx skills add Aar0nPB/curator-skill -g -y
 ```
 
-Then in Claude Code, say things like:
-
-```
-"What persona skills are out there?"
-"Help me think through whether to take this offer from multiple angles"
-"What would Naval think about X?"
-"My ex just reached out and I don't know what to do"
-```
-
-## Runtime support
-
-The `npx skills add` protocol auto-installs curator-skill to **12+ agent runtimes**:
-
-- **Auto-installed to**: Claude Code · Cursor · Codex CLI · Gemini CLI · OpenCode · Antigravity · Kiro CLI · Trae · OpenClaw
-- **Primary validation**: Claude Code (all prompt behaviors tested here)
-- **Why it works cross-runtime**: SKILL.md + JSON is plain text, works in any SKILL-protocol-compatible runtime — no runtime-specific magic required.
+Supports Claude Code · Cursor · Codex CLI · Gemini CLI · OpenCode and 12+ agent runtimes.
 
 ## License
 
