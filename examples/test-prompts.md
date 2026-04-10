@@ -24,7 +24,7 @@
 - [ ] "Karpathy 怎么看 AGI 时间表"
 - [ ] "如果是马斯克,他会怎么做"
 
-**Expected**: curator 推荐对应的单个 persona,带 core_lens / 为什么适合 / 局限 / install 命令。**绝不**触发顾问团模式。
+**Expected**: curator 推荐对应的单个 persona,带 core_lens / 为什么适合 / 局限 / install 命令。
 
 ---
 
@@ -39,21 +39,14 @@
 
 ---
 
-### Scenario 4: Council 顾问团决策 (核心 viral 功能,必测)
+### Scenario 4: Decision 决策辅助 (单 persona 推荐)
 
-- [ ] "帮我多角度想清楚要不要接这个 offer" → **founder_council**
-- [ ] "投资顾问团" → **investment_council**
-- [ ] "该不该 all in 这个早期项目" → **investment_council**
-- [ ] "要不要读博" → **decision_council**
-- [ ] "帮我决策这个事,我想想清楚" → 智能匹配最相关 council
-- [ ] "该不该跳槽" → **founder_council 或 decision_council**
+- [ ] "该不该接这个 offer" → 推荐 PG 或张一鸣(创业/职业类)
+- [ ] "该不该 all in 这个早期项目" → 推荐芒格或 Taleb(投资/风险类)
+- [ ] "要不要读博" → 推荐 Munger 或 Naval(个人决策类)
+- [ ] "帮我决策这个事,我想想清楚" → 匹配决策类型推荐最相关的 1 个
 
-**Expected**: curator
-1. 识别为 council 触发
-2. 在 council_presets[] 找最匹配的 preset
-3. 列出 install_all 命令块
-4. 给出依次召唤的 invocation_script(从 JSON 读)
-5. 强调"这是 lite 版,phase 2 会有 subagent"
+**Expected**: curator 推荐**最匹配决策类型的 1 个** persona,标准候选格式(核心镜片 / 为什么适合 / 局限 / 安装 / 用法)。可以在末尾提一句"想要更多视角,可以装几个分别 prompt"。
 
 ---
 
@@ -126,7 +119,7 @@
 ## 边界 case 测试
 
 - [ ] "找个 skill" → 是技能发现还是 persona 发现?如果用户没提 persona,curator 应该让 ai-skill 处理(curator 只管 persona)
-- [ ] "用 Naval 的角度想想要不要 all in" → 这是单 persona 借脑,**不应该**触发 council
+- [ ] "用 Naval 的角度想想要不要 all in" → 这是单 persona 借脑(perspective hijack),不是决策辅助
 - [ ] "我想用一个人的视角看 X" → 模糊需求,curator 应该追问"哪个人?"或推荐 starter pack
 - [ ] "我想要个 mentor" → method 类,推荐 x-mentor / mentor 类 skill
 - [ ] "换一个 persona" → 用户明确要求换,**可以**重新介入
@@ -141,7 +134,7 @@
 2. **局限** 字段是否说清楚了(不是泛泛"有局限")
 3. **install_cmd** 是否准确(可以直接复制运行)
 4. **scenarios** 标签是否正确
-5. 顾问团 invocation_script 是否真实可贴(而不是占位符)
+5. 决策类推荐是否匹配了正确的 persona(而不是随机推)
 
 ---
 
@@ -150,7 +143,6 @@
 v1 ship 通过的最低标准:
 
 - 所有 8 个 scenario 至少有 80% prompt 触发正确(8 × 80% ≈ 6 个 scenario 完全 pass + 2 个有 1 处小问题)
-- **Council 场景必须 100% pass**(viral 功能命脉)
 - **不触发场景必须 100% pass**(否则 curator 会变成噪音)
 - **Creation redirect 必须 100% pass**(否则会和 nuwa 抢位)
 - **Emotional priming 措辞必须不机器**(curator 在情感场景里冷冰冰会致命)
